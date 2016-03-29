@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物业管理系统-用户登录</title>
+<link rel="stylesheet" type="text/css" href="css/login/styles.css">
+<style type="text/css">
+	.form .form-div {
+		position: relative;
+	}
+	.form .form-div span {
+		position: absolute; top:12px; left: 433px;
+		color: red;
+		display : none;
+		font-size: 14px;
+	}
+	
+</style>
+</head>
+<body>
+<div class="htmleaf-container">
+	<div class="wrapper">
+		<div class="container">
+			<h1>物业系统登录</h1>
+			
+			<form class="form">
+				<div class="form-div">
+					<input type="text" name="account" id="account" placeholder="登录账号">
+					<span id="tip-account">登录账号错误</span>
+				</div>
+				<div class="form-div">
+					<input type="password" name="password" id="password" placeholder="登录密码">
+					<span id="tip-password">登录密码错误</span>
+				</div>
+				<div class="form-div">
+					<input type="text" name="autoSecurityCode" id="autoSecurityCode" placeholder="验证码" style="width: 170px;">
+					<div style="display: inline-block; position: relative; top: 10px;">
+						<img src="securityCode/securityCodeImageAction/imagecode.action" id="Verify"  style="cursor:pointer;" alt="看不清"/>
+					</div>
+					<span id="tip-asc">验证码错误</span>
+				</div>
+				<div class="form-div" style="display: none;">
+					<input type="text" placeholder="验证码" style="width: 140px;">
+					<input type="button" value="发送"  style="width: 100px;">
+					<span>验证码错误</span>
+				</div>
+				<div style="text-align: left; margin-left: 180px; margin-top: 3px; margin-bottom: 3px;">
+					<label style="display: inline-block;"><input type="checkbox" style="border: none" id="remember"/>记住我</label>
+				</div>
+				<button type="button" id="login-button" onclick="login()">登录</button>
+			</form>
+		</div>
+		
+		<ul class="bg-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+</div>
+
+<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script>
+/* $('#login-button').click(function (event) {
+	event.preventDefault();
+	$('form').fadeOut(500);
+	$('.wrapper').addClass('form-success');
+}); */
+if(self!=top)window.top.location.href ='login.html';
+$(function () {  
+	$(".form-div input").focus(function() {
+		$(this).siblings("span").css({"display":"none"});
+	});
+	$("#remember").click(function() {
+		if($(this).is(":checked")) {
+			setCookie();
+		} else {
+			delCookie();
+		}
+	});
+	getCookie();
+	  //点击图片更换验证码
+    $("#Verify").click(function(){
+	        $(this).attr("src","securityCode/securityCodeImageAction/imagecode.action?timestamp="+new Date().getTime());
+	    });
+	 });
+	 
+function login() {
+	var username = $("#account").val();
+	var password = $("#password").val();
+	var autoSecurityCode = $("#autoSecurityCode").val();
+	var tip = "";
+	if (username == "") {
+		$("#tip-account").text("登录账号不能为空").css({"display":"inline-block"});
+		tip = "u";
+	}
+	if (password == "") {
+		$("#tip-password").text("登录密码不能为空").css({"display":"inline-block"});
+		tip = "p";
+	}
+	if (autoSecurityCode == "") {
+		$("#tip-asc").text("验证码不能为空").css({"display":"inline-block"});
+		tip = "c";
+	}
+	if (tip != "") {
+		return;
+	}
+	$.post("wuyeUserLogin/userLogin.action",{
+		account : username,
+		password : password,
+		autoSecurityCode : autoSecurityCode
+	},function(data) {
+		var result = eval("(" + data + ")");
+		if (result.result) {
+            //页面跳转
+			location.href = "index.jsp";
+		} else if (result.result == null) {
+			$("#tip-asc").text(result.msg).css({"display":"inline-block"});
+		} else {
+			alert(result.result);
+		}
+	});
+}
+
+/**
+ * 设置Cookie
+ */
+function setCookie() {
+	var username = $("#account").val();
+	var cookieVal = "username=" + username + "&remember=true";
+	$.cookie("wyuser", cookieVal);
+}
+
+/**
+ * 删除Cookie
+ */
+function delCookie() {
+	$.cookie("wyuser", null);
+}
+/**
+ * 读取Cookie
+ */
+function getCookie() {
+	var ruser = $.cookie("wyuser");
+	if (ruser != null) {
+		var user = ruser.split('&')[0].split("=")[1];
+		var remember = ruser.split('&')[1].split("=")[1];
+		if ( remember == "true") {
+			$("#remember").attr("checked",true);
+			$("#account").val(user);
+		}
+	}
+}
+
+</script>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';color:#000000">
+</div>
+</body>
+</html>

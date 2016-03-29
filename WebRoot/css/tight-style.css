@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+.tight-label {
+float: none;
+	text-align: left;
+	width: auto;
+	font-weight: bold;
+	margin-right: 10px;
+	display:inline;
+}
+
+.tight-control {
+	
+	display:inline;
+}

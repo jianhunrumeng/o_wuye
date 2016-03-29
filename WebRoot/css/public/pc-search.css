@@ -1,0 +1,25 @@
+.pc-parent-div {
+	position: relative;
+}
+
+.pc-div {
+	width: 226px; 
+	position: absolute; 
+	z-index: 9999;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.pc-div span {
+	width: 224px;
+	height: 100%;
+	line-height: 25px;
+	padding : 2px;
+	display: block;
+}
+
+.pc-div span:hover {
+	background-color: #ccc;
+}

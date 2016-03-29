@@ -1,0 +1,7 @@
+#编译的class文件不提交github
+*.class
+/o_wuye.iml
+/.idea
+#idea文件不提交
+/out
+classes/
