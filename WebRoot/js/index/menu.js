@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 
 $(document).ready(function(){
@@ -9,8 +9,8 @@ $(document).ready(function(){
 	$("#left").attr("style","overflow:scroll");
 })
 /**
- * 菜单数据获取。
- * @return {TypeName} 
+ * 鑾峰彇鑿滃崟
+ * @return {TypeName}
  */
 function loadingMenu(){
 	var menulst;
@@ -23,7 +23,7 @@ function loadingMenu(){
 	return menulst;
 }
 /**
- * 菜单展现.
+ * 鏄剧ず鑿滃崟
  * @param {Object} menus
  */
 function showMenu(menus){
@@ -38,7 +38,7 @@ function showMenu(menus){
 		}else{
 			str += '<ul id="primary'+primary.menuId+'" class="nav nav-list collapse menu-second">';
 		}
-		
+
 		for(var j=0;j<childs.length;j++){
 			var child=childs[j];
 			str += '<li><a href="'+child.menuPath+'"><i class="icon-user"></i> '+child.menuName+'</a></li>';
